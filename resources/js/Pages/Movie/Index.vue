@@ -9,7 +9,6 @@ export default {
     emits: ['modalToggle'],
     props: {
         movies: Object,
-        errors: Object,
     },
     data() {
         return {
@@ -17,7 +16,6 @@ export default {
             modalToggle: false,
             movie: {},
             form: useForm({}),
-            imageSrc: 'storage/movie/',
         }
     },
     methods: {
@@ -71,10 +69,11 @@ export default {
                         <td>{{ movie.number }}</td>
                         <td>{{ movie.price }}</td>
                         <td>
-                            <img :src="`${imageSrc}${movie.image}`" alt="" style="max-width: 120px; height: auto;">
+                            <img v-if="movie.image" :src="`storage/movie/${movie.image}`" alt=""
+                                style="max-width: 120px; height: auto;">
                         </td>
                         <td>{{ movie.description ? movie.description : 'default' }}</td>
-                        <td>{{ movie.status }}</td>
+                        <td>{{ movie.status ? 'Active' : 'Inactive' }}</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="edit-button"
@@ -87,7 +86,7 @@ export default {
                 </tbody>
             </table>
         </div>
-        <Create v-if="modalToggle" @modalToggle="closeModal()" :errors="errors" :movie="movie" />
+        <Create v-if="modalToggle" @modalToggle="closeModal()" :movie="movie" />
     </FrontLayout>
 </template>
 

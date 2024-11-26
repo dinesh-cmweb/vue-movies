@@ -33,8 +33,8 @@ class MovieRequest extends FormRequest
             'status' => ['required'],
         ];
 
-        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-            $rules['image'] = array_merge(['nullable'], CommonHelper::getImageValidationRule('image'));
+        if (request()->hasFile('image')) {
+            $rules['image'] = array_merge(CommonHelper::getImageValidationRule('image'));
         }
 
         return $rules;

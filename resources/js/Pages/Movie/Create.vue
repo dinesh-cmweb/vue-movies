@@ -4,7 +4,6 @@ import { useForm } from '@inertiajs/vue3';
 export default {
     components: { useForm },
     props: {
-        errors: Object,
         movie: Object,
     },
     data() {
@@ -21,6 +20,7 @@ export default {
             }),
             imageUrl: this.movie.image ? `/storage/movie/${this.movie.image}` : '',
             tempImageFile: null,
+            errors: {},
         }
     },
     methods: {
@@ -36,28 +36,17 @@ export default {
             if (this.tempImageFile) {
                 this.form.image = this.tempImageFile;
             }
-            if (Object.keys(this.movie).length == 0) {
-                this.form.post(url, {
-                    onSuccess: () => {
-                        this.form.reset();
-                        this.$emit('modalToggle');
-                    },
-                    onError: (error) => {
-                        console.log(error);
-                    },
-                });
-            } else {
-                this.form.post(url, {
-                    onSuccess: () => {
-                        this.form.reset();
-                        this.tempImageFile = null;
-                        this.$emit('modalToggle');
-                    },
-                    onError: (error) => {
-                        console.log(error);
-                    },
-                });
-            }
+            this.form.post(url, {
+                onSuccess: () => {
+                    this.form.reset();
+                    this.tempImageFile = null;
+                    this.$emit('modalToggle');
+                },
+                onError: (error) => {
+                    console.log(error); 
+                    this.errors = error;
+                },
+            });
         },
     },
 }
@@ -102,6 +91,7 @@ export default {
                         <p>Image Preview:</p>
                         <img :src="imageUrl" alt="Preview" class="preview-image" />
                     </div>
+                    <div v-if="this.errors.image" class="error">{{ this.errors.image }}</div>
 
                     <label for="Description">Description</label>
                     <textarea id="Description" v-model="form.description" rows="4"
