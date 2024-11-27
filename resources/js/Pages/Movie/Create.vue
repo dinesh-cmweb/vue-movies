@@ -8,7 +8,7 @@ export default {
     },
     data() {
         return {
-            form: useForm({
+            form: {
                 name: this.movie.name || '',
                 director: this.movie.director || '',
                 release_date: this.movie.release_date || '',
@@ -17,7 +17,7 @@ export default {
                 image: this.movie.image || '',
                 description: this.movie.description || '',
                 status: this.movie.status || 0,
-            }),
+            },
             imageUrl: this.movie.image ? `/storage/movie/${this.movie.image}` : '',
             tempImageFile: null,
             errors: {},
@@ -36,17 +36,34 @@ export default {
             if (this.tempImageFile) {
                 this.form.image = this.tempImageFile;
             }
-            this.form.post(url, {
-                onSuccess: () => {
-                    this.form.reset();
-                    this.tempImageFile = null;
-                    this.$emit('modalToggle');
-                },
-                onError: (error) => {
-                    console.log(error); 
-                    this.errors = error;
-                },
-            });
+            if (this.movie.id) {
+                this.form._method = 'put',
+                this.form = useForm(this.form);
+                this.form.post(url, {
+                    onSuccess: () => {
+                        this.form.reset();
+                        this.tempImageFile = null;
+                        this.$emit('modalToggle');
+                    },
+                    onError: (error) => {
+                        console.log(error);
+                        this.errors = error;
+                    },
+                });
+            } else {
+                this.form = useForm(this.form);
+                this.form.post(url, {
+                    onSuccess: () => {
+                        this.form.reset();
+                        this.tempImageFile = null;
+                        this.$emit('modalToggle');
+                    },
+                    onError: (error) => {
+                        console.log(error);
+                        this.errors = error;
+                    },
+                });
+            }
         },
     },
 }

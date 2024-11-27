@@ -31,8 +31,11 @@ export default {
         deleteData(e) {
             let url = e.target.getAttribute('url');
             if (confirm('Are you sure you want to delete?')) {
-                let res = this.form.delete(url);
-                console.log(res);
+                this.form.delete(url, {
+                    onError :(error) => {
+                        console.log(error);
+                    }
+                });
             }
         }
     }

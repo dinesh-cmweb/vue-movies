@@ -10,7 +10,7 @@ route::prefix('movies')->group(function () {
     Route::get('/create', [MovieController::class, 'create'])->name('movie.create');
     Route::post('/save', [MovieController::class, 'save'])->name('movie.save');
     Route::get('{movie}/edit', [MovieController::class, 'edit'])->name('movie.edit');
-    Route::post('/{movie}/update', [MovieController::class, 'update'])->name('movie.update');
+    Route::put('/{movie}/update', [MovieController::class, 'update'])->name('movie.update');
     Route::delete('/{movie}/delete', [MovieController::class, 'delete'])->name('movie.delete');
 });
 
