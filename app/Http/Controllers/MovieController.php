@@ -14,6 +14,7 @@ class MovieController extends Controller
         $movies = Movie::query()->get();
 
         
+
         return Inertia::render('Movie/Index', [
             'movies' => $movies,
         ]);
@@ -21,12 +22,14 @@ class MovieController extends Controller
 
     public function create()
     {
+
         return Inertia::render('Movie/Create');
         
     }
 
     public function save(MovieRequest $request)
     {
+        
         $inputs = $request->validated();
 
         if ($request->file('image')) {
