@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Movie;
 use App\Helper\CommonHelper;
 use App\Http\Requests\MovieRequest;
+use App\Models\Movie;
+use Inertia\Inertia;
 
 class MovieController extends Controller
 {
@@ -53,7 +53,7 @@ class MovieController extends Controller
 
     public function delete(Movie $movie)
     {
-        CommonHelper::removeOldFile('public/movie/' . $movie->image);
+        CommonHelper::removeOldFile('public/movie/'.$movie->image);
         $movie->delete();
 
         return redirect()->to('/movies')->with('message', 'Movie deleted successfully');

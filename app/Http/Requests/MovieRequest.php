@@ -23,7 +23,7 @@ class MovieRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => ['required','string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'director' => ['required', 'string', 'max:255'],
             'release_date' => ['required', 'date'],
             'number' => ['required', 'numeric', 'max_digits:15'],
